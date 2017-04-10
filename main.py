@@ -1,6 +1,7 @@
-"""
+"""Main CLI application.
 """
 import logging
+import sys
 from drawing import cmdparse, draw
 
 
