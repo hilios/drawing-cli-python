@@ -18,7 +18,8 @@ def parse(cmd):
 
 
 def handle(*constraints, **kwargs):
-    """Adapt some given function to a command input, constrained by the arguments."""
+    """Adapt some given function to a command input applying a pattern matching
+    constraints."""
     handlename, types = constraints[0], constraints[1:]
     def action_decorator(fn):
         def wrapper(cmd, drawing):

@@ -2,13 +2,13 @@
 """
 import logging
 import sys
-from drawing import cmdparse, draw
+from drawing import cmdparse, render
 
 
 def run(drawing=None):
     "Recursively applies a command to the drawing"
     cmd = cmdparse.parse(raw_input("enter command: "))
-    run(draw(cmd, drawing))
+    run(render(cmd, drawing))
 
 
 if __name__ == '__main__':
