@@ -5,6 +5,7 @@ from drawing.cmdparse import parse, handle
 class ParseTest(unittest.TestCase):
 
     def test_correct_matches(self):
+        "Returns a command tuple"
         self.assertEqual(parse("C 20 4"), ("C", "20", "4",))
         self.assertEqual(parse("L 1 2 3 4"), ("L", "1", "2", "3", "4",))
         self.assertEqual(parse("R 1 2 3 4"), ("R", "1", "2", "3", "4",))
@@ -12,15 +13,17 @@ class ParseTest(unittest.TestCase):
         self.assertEqual(parse("Q"), ("Q",))
 
     def test_incorrect_matches(self):
+        "Wrong command inputs always returns None"
         self.assertEqual(parse("B 1 ccc"), (None,))
         self.assertEqual(parse("CC 20 30"), (None,))
         self.assertEqual(parse("q"), (None,))
         self.assertEqual(parse("Lorem ipsum dolor"), (None,))
+        self.assertEqual(parse("R 1 2 3 4 5 6 7"), (None,))
 
 
 @handle('A', int, str, require_canvas=True)
-def test_cmd(a_int, a_str, drawing):
-    return (a_int, a_str, drawing,)
+def test_cmd(an_int, a_str, drawing):
+    return (an_int, a_str, drawing,)
 
 
 @handle('B', require_canvas=False)

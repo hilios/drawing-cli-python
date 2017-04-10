@@ -5,7 +5,7 @@ import logging
 import re
 
 
-CMD_PARSER = re.compile("[A-Z]{1}(\s(\d+|[a-z]{1}))*$")
+CMD_PARSER = re.compile("[A-Z]{1}(\s(\d+|[a-z]{1})){0,4}$")
 
 
 def parse(cmd):
@@ -42,7 +42,6 @@ def handle(*constraints, **kwargs):
 
             except ValueError:
                 logging.warn("Wrong input")
-
                 return drawing
 
         return wrapper
