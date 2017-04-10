@@ -1,5 +1,6 @@
 """The command parser utilities
 """
+import copy
 import logging
 import re
 
@@ -16,26 +17,29 @@ def parse(cmd):
         return (None,)
 
 
-def action(expected_action, fmts=tuple(), require_canvas=True):
-    "Defines an action constraint and format"
+def handle(*constraints, **kwargs):
+    """Adapt some given function to a command input, constrained by the arguments."""
+    action_constraint = constraints[0]
+    types = constraints[1:]
+
     def action_decorator(fn):
         def wrapper(cmd, drawing):
             action, params = (cmd[0], cmd[1:])
 
-            if action is not expected_action:
+            if action is not action_constraint:
                 return drawing
 
-            if require_canvas and drawing is None:
+            if kwargs.get('require_canvas', True) and drawing is None:
                 logging.warn('Please, create a canvas before drawing')
                 return drawing
 
             try:
-                if len(params) is not len(fmts):
+                if len(params) is not len(types):
                     raise ValueError
 
-                fmtp = tuple([fmt(param) for (param, fmt) in zip(params, fmts)])
-                logging.debug("Executing %s with params: %s" % (action, fmtp))
-                return fn(fmtp, drawing)
+                args = tuple([fmt(param) for (param, fmt) in zip(params, types)])
+                logging.debug("Executing %s with params: %s" % (action, args))
+                return fn(*args, drawing=drawing)
 
             except ValueError:
                 logging.warn("Wrong input")
