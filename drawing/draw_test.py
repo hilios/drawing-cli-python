@@ -1,8 +1,11 @@
 import unittest
-from draw import canvas, line
+import textwrap
+from drawing.utils import pretty_render
+from drawing.draw import canvas, line
 
 
-BASE_CANVAS = " " * (20 * 4)
+W, H,  = (20, 4)
+BASE_CANVAS = " " * (W * H)
 
 
 class CanvasTest(unittest.TestCase):
@@ -17,31 +20,40 @@ class CanvasTest(unittest.TestCase):
         self.assertEqual(drawing, "    ")
 
 
-@unittest.skip
 class LineTest(unittest.TestCase):
 
     def test_horizontal_line(self):
-        drawing = line(1, 2, 6, 2, BASE_CANVAS)
-        self.assertEqual(canvas, """
+        drawing = line(1, 2, 6, 2, W, H, BASE_CANVAS)
+        self.assertEqual(pretty_render(W, H, drawing), textwrap.dedent("""
         +--------------------+
         |                    |
         |xxxxxx              |
         |                    |
         |                    |
         +--------------------+
-        """)
+        """))
 
     def test_vertical_line(self):
-        drawing = line(6, 3, 6, 4, BASE_CANVAS)
+        drawing = line(6, 3, 6, 4, W, H, BASE_CANVAS)
+        self.assertEqual(pretty_render(W, H, drawing), textwrap.dedent("""
+        +--------------------+
+        |                    |
+        |                    |
+        |     x              |
+        |     x              |
+        +--------------------+
+        """))
 
     def test_diagonal_line(self):
-        pass
+        with self.assertRaises(ValueError):
+            line(1, 2, 6, 4, W, H, BASE_CANVAS)
 
 
-
+@unittest.skip
 class RectTest(unittest.TestCase):
     pass
 
 
+@unittest.skip
 class FillTest(unittest.TestCase):
     pass
