@@ -6,9 +6,16 @@ import itertools
 
 
 def to_index(x, y, w, h):
-    "Converts an 2D coordinate to an linear index, not allowing out of bounds"
-    _x = abs(x) if x < w else w - 1
-    _y = abs(y) if y < h else h - 1
+    """Converts a 2D coordinate to an linear index constrained to the canvas
+    bounds.
+
+    If a negative coordinate is provided"""
+    invert  = lambda i, dim: dim + i if i < 0 else i
+    lbound = lambda i, dim: 0 if i < 0 else i
+    rbound = lambda i, dim: i if i < dim else dim - 1
+
+    _x = reduce(lambda x, fn: fn(x, w), [invert, lbound, rbound], x)
+    _y = reduce(lambda y, fn: fn(y, h), [invert, lbound, rbound], y)
     return _x + _y * w
 
 
@@ -23,6 +30,7 @@ def canvas(width, height, drawing):
 
 
 def line(x1, y1, x2, y2, w, h, drawing):
+    "Draws a horizontal or vertical lines"
     dx, dy = range(x1, x2 + 1), range(y1, y2 + 1)
 
     if len(dx) > 1 and len(dy) > 1:
@@ -33,6 +41,7 @@ def line(x1, y1, x2, y2, w, h, drawing):
 
 
 def rect(x1, y1, x2, y2, w, h, drawing):
+    "Draws a rectangle"
     t = (x1, y1, x2, y1)
     r = (x2, y1, x2, y2)
     b = (x1, y2, x2, y2)
@@ -42,4 +51,5 @@ def rect(x1, y1, x2, y2, w, h, drawing):
 
 
 def bucket(x, y, c, w, h, drawing):
+    "Fills some area constrained to the canvas and/or lines"
     return fill(x, y, c, w, h, drawing)

@@ -33,6 +33,14 @@ class FillerTest(unittest.TestCase):
         drawing = fill(11, 11, '*', self.w, self.h, self.canvas)
         self.assertEqual(drawing, "        *")
 
+    def test_negative_index(self):
+        drawing = fill(-1, -1, '*', self.w, self.h, self.canvas)
+        self.assertEqual(drawing, "        *")
+
+    def test_negative_out_of_bounds(self):
+        drawing = fill(-11, -11, '*', self.w, self.h, self.canvas)
+        self.assertEqual(drawing, "*        ")
+
 
 class LineTest(unittest.TestCase):
 
@@ -67,6 +75,8 @@ class RectTest(unittest.TestCase):
 
     def test_draw_rect(self):
         drawing = rect(15, 0, 19, 2, W, H, BASE_CANVAS)
+
+        print pretty_render(W, H, drawing)
         self.assertEqual(pretty_render(W, H, drawing), textwrap.dedent("""
         +--------------------+
         |               xxxxx|
