@@ -4,7 +4,14 @@ import itertools
 
 
 def pos(x, y, w, h):
-    return x + y * w
+    _x = abs(x) if x < w else w
+    _y = abs(y) if y < h else h
+    return _x + _y * w
+
+
+def point(x, y, filler, w, h, drawing):
+    i = pos(x, y, w, h)
+    return "%s%s%s" % (drawing[:i], filler, drawing[i+1:])
 
 
 def canvas(width, height, drawing):
@@ -17,12 +24,8 @@ def line(x1, y1, x2, y2, w, h, drawing):
     if len(dx) > 1 and len(dy) > 1:
         raise ValueError
 
-    def draw(d, xy):
-        x, y = xy
-        i = pos(x, y, w, h)
-        return "%sx%s" % (d[:i], d[i+1:])
-
-    return reduce(draw, itertools.product(dx, dy), drawing)
+    return reduce(lambda d, xy: point(*xy, filler='x', w=w, h=h, drawing=d),
+        itertools.product(dx, dy), drawing)
 
 
 def rect(x1, y1, x2, y2, w, h, drawing):
@@ -30,9 +33,10 @@ def rect(x1, y1, x2, y2, w, h, drawing):
     r = (x2, y1, x2, y2)
     b = (x1, y2, x2, y2)
     l = (x1, y1, x1, y2)
+
     return reduce(lambda d, largs: line(*largs,
         w=w, h=h, drawing=d), (t,r,b,l), drawing)
 
 
-def fill(x, y, coler, drawing):
+def fill(x, y, color, drawing):
     raise NotImplementedError
