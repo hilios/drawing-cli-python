@@ -1,7 +1,7 @@
 import unittest
 import textwrap
 from drawing.utils import pretty_render
-from drawing.draw import canvas, point, line, rect, fill
+from drawing.draw import canvas, fill, line, rect, bucket
 
 
 W, H,  = (20, 4)
@@ -20,24 +20,24 @@ class CanvasTest(unittest.TestCase):
         self.assertEqual(drawing, "    ")
 
 
-class PosAndPointTest(unittest.TestCase):
+class FillerTest(unittest.TestCase):
 
     w, h = 3, 3
     canvas = " " * (w * h)
 
-    def test_draw_point(self):
-        drawing = point(1, 1, '*', self.w, self.h, self.canvas)
+    def test_fill_coordinate(self):
+        drawing = fill(1, 1, '*', self.w, self.h, self.canvas)
         self.assertEqual(drawing, "    *    ")
 
     def test_out_of_bounds(self):
-        drawing = point(10, 10, '*', 3, 3, " " * 3**2)
-        self.assertEqual(drawing, "         *")
+        drawing = fill(11, 11, '*', self.w, self.h, self.canvas)
+        self.assertEqual(drawing, "        *")
 
 
 class LineTest(unittest.TestCase):
 
     def test_horizontal_line(self):
-        drawing = line(1, 2, 6, 2, W, H, BASE_CANVAS)
+        drawing = line(0, 1, 5, 1, W, H, BASE_CANVAS)
         self.assertEqual(pretty_render(W, H, drawing), textwrap.dedent("""
         +--------------------+
         |                    |
@@ -48,7 +48,7 @@ class LineTest(unittest.TestCase):
         """))
 
     def test_vertical_line(self):
-        drawing = line(6, 3, 6, 4, W, H, BASE_CANVAS)
+        drawing = line(5, 2, 5, 3, W, H, BASE_CANVAS)
         self.assertEqual(pretty_render(W, H, drawing), textwrap.dedent("""
         +--------------------+
         |                    |
@@ -66,7 +66,7 @@ class LineTest(unittest.TestCase):
 class RectTest(unittest.TestCase):
 
     def test_draw_rect(self):
-        drawing = rect(16, 1, 20, 3, W, H, BASE_CANVAS)
+        drawing = rect(15, 0, 19, 2, W, H, BASE_CANVAS)
         self.assertEqual(pretty_render(W, H, drawing), textwrap.dedent("""
         +--------------------+
         |               xxxxx|
@@ -77,24 +77,23 @@ class RectTest(unittest.TestCase):
         """))
 
 
-class FillTest(unittest.TestCase):
+class BucketTest(unittest.TestCase):
 
-    def test_filling_a_rect(self):
-        l1 = lambda c: line(1, 2, 6, 2, W, H, c)
-        l2 = lambda c: line(6, 3, 6, 4, W, H, c)
-        rc = lambda c: rect(16, 1, 20, 3, W, H, c)
+    def test_filling_the_canvas(self):
+        l1 = lambda c: line(0, 1, 5, 1, W, H, c)
+        l2 = lambda c: line(5, 2, 5, 3, W, H, c)
+        rc = lambda c: rect(15, 0, 19, 2, W, H, c)
+        bc = lambda c: bucket(9, 2, 'o', W, H, c)
 
-        drawing = reduce(lambda d, fn: fn(d), (l1,l2,rc), BASE_CANVAS)
+        drawing = reduce(lambda d, fn: fn(d), (l1,l2,rc,bc), BASE_CANVAS)
+
+        print pretty_render(W, H, drawing)
 
         self.assertEqual(pretty_render(W, H, drawing), textwrap.dedent("""
         +--------------------+
         |               xxxxx|
         |xxxxxx         x   x|
-        |     x         xxxxx|
+        |     x   o     xxxxx|
         |     x              |
         +--------------------+
         """))
-
-        fl = lambda c: fill(10, 3, 'o', c)
-
-        print pretty_render(W, H, drawing)

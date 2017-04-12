@@ -1,4 +1,7 @@
-"""Main drawing functions
+"""Parses and apply a drawing command to some canvas.
+
+All X, Y coordinates are one-based positions relative to the canvas width and
+height.
 """
 import sys
 from drawing import cmdparse, draw, utils
@@ -17,19 +20,19 @@ def c(w, h, canvas):
 @cmdparse.handle('L', int, int, int, int)
 def l(x1, y1, x2, y2, canvas):
     w, h, drawing = canvas
-    return (w, h, draw.line(x1, y1, x2, y2, w, h, drawing))
+    return (w, h, draw.line(x1-1, y1-1, x2-1, y2-1, w, h, drawing))
 
 
 @cmdparse.handle('R', int, int, int, int)
 def r(x1, y1, x2, y2, canvas):
     w, h, drawing = canvas
-    return (w, h, draw.rect(x1, y1, x2, y2, w, h, drawing))
+    return (w, h, draw.rect(x1-1, y1-1, x2-1, y2-1, w, h, drawing))
 
 
 @cmdparse.handle('B', int, int, str)
 def b(x1, y1, c, canvas):
     w, h, drawing = canvas
-    return (w, h, draw.fill(x1, y1, c, w, h, drawing))
+    return (w, h, draw.bucket(x1-1, y1-1, c, w, h, drawing))
 
 
 def render(cmd, canvas):

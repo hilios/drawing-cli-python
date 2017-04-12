@@ -1,3 +1,5 @@
+"""Utilities functions.
+"""
 import itertools
 import textwrap
 import sys
