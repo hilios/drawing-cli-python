@@ -9,9 +9,9 @@ def pos(x, y, w, h):
     return _x + _y * w
 
 
-def point(x, y, filler, w, h, drawing):
+def point(x, y, f, w, h, drawing):
     i = pos(x, y, w, h)
-    return "%s%s%s" % (drawing[:i], filler, drawing[i+1:])
+    return "%s%s%s" % (drawing[:i], f, drawing[i+1:])
 
 
 def canvas(width, height, drawing):
@@ -24,7 +24,7 @@ def line(x1, y1, x2, y2, w, h, drawing):
     if len(dx) > 1 and len(dy) > 1:
         raise ValueError
 
-    return reduce(lambda d, xy: point(*xy, filler='x', w=w, h=h, drawing=d),
+    return reduce(lambda d, xy: point(*xy, f='x', w=w, h=h, drawing=d),
         itertools.product(dx, dy), drawing)
 
 

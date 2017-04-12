@@ -5,7 +5,7 @@ from drawing import cmdparse, draw, utils
 
 
 @cmdparse.handle('Q', require_canvas=False)
-def q(*args):
+def q(*args, **kwargs):
     sys.exit(0)
 
 
@@ -17,19 +17,19 @@ def c(w, h, canvas):
 @cmdparse.handle('L', int, int, int, int)
 def l(x1, y1, x2, y2, canvas):
     w, h, drawing = canvas
-    return (w, h, draw.line(w, h, x1, y1, x2, y2, drawing))
+    return (w, h, draw.line(x1, y1, x2, y2, w, h, drawing))
 
 
 @cmdparse.handle('R', int, int, int, int)
 def r(x1, y1, x2, y2, canvas):
     w, h, drawing = canvas
-    return (w, h, draw.rect(x1, y1, x2, y2, drawing))
+    return (w, h, draw.rect(x1, y1, x2, y2, w, h, drawing))
 
 
 @cmdparse.handle('B', int, int, str)
 def b(x1, y1, c, canvas):
     w, h, drawing = canvas
-    return (w, h, draw.fill(x1, y1, c, drawing))
+    return (w, h, draw.fill(x1, y1, c, w, h, drawing))
 
 
 def render(cmd, canvas):
