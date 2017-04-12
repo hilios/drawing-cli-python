@@ -19,15 +19,19 @@ def line(x1, y1, x2, y2, w, h, drawing):
 
     def draw(d, xy):
         x, y = xy
-        l = list(d)
-        l[pos(x, y, w, h)] = "x"
-        return "".join(l)
+        i = pos(x, y, w, h)
+        return "%sx%s" % (d[:i], d[i+1:])
 
     return reduce(draw, itertools.product(dx, dy), drawing)
 
 
-def rect(x1, y1, x2, y2, drawing):
-    raise NotImplementedError
+def rect(x1, y1, x2, y2, w, h, drawing):
+    t = (x1, y1, x2, y1)
+    r = (x2, y1, x2, y2)
+    b = (x1, y2, x2, y2)
+    l = (x1, y1, x1, y2)
+    return reduce(lambda d, largs: line(*largs,
+        w=w, h=h, drawing=d), (t,r,b,l), drawing)
 
 
 def fill(x, y, coler, drawing):

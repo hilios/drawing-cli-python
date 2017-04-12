@@ -1,7 +1,7 @@
 import unittest
 import textwrap
 from drawing.utils import pretty_render
-from drawing.draw import canvas, line
+from drawing.draw import canvas, line, rect
 
 
 W, H,  = (20, 4)
@@ -49,9 +49,18 @@ class LineTest(unittest.TestCase):
             line(1, 2, 6, 4, W, H, BASE_CANVAS)
 
 
-@unittest.skip
 class RectTest(unittest.TestCase):
-    pass
+
+    def test_draw_rect(self):
+        drawing = rect(16, 1, 20, 3, W, H, BASE_CANVAS)
+        self.assertEqual(pretty_render(W, H, drawing), textwrap.dedent("""
+        +--------------------+
+        |               xxxxx|
+        |               x   x|
+        |               xxxxx|
+        |                    |
+        +--------------------+
+        """))
 
 
 @unittest.skip

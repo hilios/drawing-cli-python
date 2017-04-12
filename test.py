@@ -1,6 +1,7 @@
 """Discovers and runs all unit tests.
 """
 import logging
+import sys
 
 
 if __name__ == '__main__':
@@ -9,4 +10,4 @@ if __name__ == '__main__':
 
     import unittest
     suite = unittest.defaultTestLoader.discover('.', pattern="*_test.py")
-    unittest.TextTestRunner(verbosity=1).run(suite)
+    unittest.TextTestRunner(stream=sys.stdout, verbosity=1).run(suite)
