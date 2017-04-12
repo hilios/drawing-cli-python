@@ -5,10 +5,10 @@ import sys
 from drawing import cmdparse, render
 
 
-def run(drawing=None):
+def run(canvas=None):
     "Recursively applies a command to the drawing"
     cmd = cmdparse.parse(raw_input("enter command: "))
-    run(render(cmd, drawing))
+    run(render(cmd, canvas))
 
 
 if __name__ == '__main__':

@@ -22,12 +22,12 @@ class ParseTest(unittest.TestCase):
 
 
 @handle('A', int, str, require_canvas=True)
-def test_cmd(an_int, a_str, drawing):
-    return (an_int, a_str, drawing,)
+def test_cmd(an_int, a_str, canvas):
+    return (an_int, a_str, canvas,)
 
 
 @handle('B', require_canvas=False)
-def test_cmd_wo_canvas(drawing):
+def test_cmd_wo_canvas(canvas):
     return "B"
 
 
