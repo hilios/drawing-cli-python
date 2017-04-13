@@ -75,8 +75,6 @@ class RectTest(unittest.TestCase):
 
     def test_draw_rect(self):
         drawing = rect(15, 0, 19, 2, W, H, BASE_CANVAS)
-
-        print pretty_render(W, H, drawing)
         self.assertEqual(pretty_render(W, H, drawing), textwrap.dedent("""
         +--------------------+
         |               xxxxx|
@@ -89,21 +87,47 @@ class RectTest(unittest.TestCase):
 
 class BucketTest(unittest.TestCase):
 
-    def test_filling_the_canvas(self):
+    def base_drawing(self, *args):
         l1 = lambda c: line(0, 1, 5, 1, W, H, c)
         l2 = lambda c: line(5, 2, 5, 3, W, H, c)
         rc = lambda c: rect(15, 0, 19, 2, W, H, c)
-        bc = lambda c: bucket(9, 2, 'o', W, H, c)
+        return reduce(lambda d, fn: fn(d), (l1,l2,rc) + args, BASE_CANVAS)
 
-        drawing = reduce(lambda d, fn: fn(d), (l1,l2,rc,bc), BASE_CANVAS)
-
-        print pretty_render(W, H, drawing)
+    def test_filling_the_canvas(self):
+        bf = lambda c: bucket(9, 2, 'o', W, H, c)
+        drawing = self.base_drawing(bf)
 
         self.assertEqual(pretty_render(W, H, drawing), textwrap.dedent("""
         +--------------------+
-        |               xxxxx|
-        |xxxxxx         x   x|
-        |     x   o     xxxxx|
-        |     x              |
+        |oooooooooooooooxxxxx|
+        |xxxxxxooooooooox   x|
+        |     xoooooooooxxxxx|
+        |     xoooooooooooooo|
         +--------------------+
         """))
+
+    def test_fill_canvas_from_other_point(self):
+        bf = lambda c: bucket(0, 0, 'o', W, H, c)
+        drawing = self.base_drawing(bf)
+
+        self.assertEqual(pretty_render(W, H, drawing), textwrap.dedent("""
+        +--------------------+
+        |oooooooooooooooxxxxx|
+        |xxxxxxooooooooox   x|
+        |     xoooooooooxxxxx|
+        |     xoooooooooooooo|
+        +--------------------+
+        """))
+
+        def test_fill_just_a_square(self):
+            bf = lambda c: bucket(0, 0, '*', W, H, c)
+            drawing = self.base_drawing(bf)
+
+            self.assertEqual(pretty_render(W, H, drawing), textwrap.dedent("""
+            +--------------------+
+            |               xxxxx|
+            |xxxxxx         x   x|
+            |*****x         xxxxx|
+            |*****x              |
+            +--------------------+
+            """))

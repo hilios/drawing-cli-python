@@ -7,7 +7,7 @@ import itertools
 
 def to_index(x, y, w, h):
     """Converts a 2D coordinate to an linear index constrained to the canvas
-    bounds.
+    bounds
 
     If a negative coordinate is provided"""
     invert  = lambda i, dim: dim + i if i < 0 else i
@@ -17,6 +17,11 @@ def to_index(x, y, w, h):
     _x = reduce(lambda x, fn: fn(x, w), [invert, lbound, rbound], x)
     _y = reduce(lambda y, fn: fn(y, h), [invert, lbound, rbound], y)
     return _x + _y * w
+
+
+def get_index(x, y, w, h, drawing):
+    i = to_index(x, y, w, h)
+    return drawing[i]
 
 
 def fill(x, y, f, w, h, drawing):
@@ -51,5 +56,17 @@ def rect(x1, y1, x2, y2, w, h, drawing):
 
 
 def bucket(x, y, c, w, h, drawing):
-    "Fills some area constrained to the canvas and/or lines"
-    return fill(x, y, c, w, h, drawing)
+    """Fills some area constrained to the canvas and/or lines using a flood-fill
+    algorithm"""
+
+    if get_index(x, y, w, h, drawing) is " ":
+        t = (x, y - 1)
+        r = (x + 1, y)
+        b = (x, y + 1)
+        l = (x - 1, y)
+        ixs = [(m,n) for m,n in (t,r,b,l) if m >= 0 and m < w and n >= 0 and n < h]
+
+        return reduce(lambda d, xy: bucket(*xy, c=c, w=w, h=h, drawing=d), ixs,
+            fill(x, y, c, w, h, drawing))
+    else:
+        return drawing
