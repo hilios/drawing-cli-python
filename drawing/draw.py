@@ -19,11 +19,6 @@ def to_index(x, y, w, h):
     return _x + _y * w
 
 
-def get_index(x, y, w, h, drawing):
-    i = to_index(x, y, w, h)
-    return drawing[i]
-
-
 def fill(x, y, f, w, h, drawing):
     "Fills an coordinate with given filler"
     i = to_index(x, y, w, h)
@@ -58,8 +53,8 @@ def rect(x1, y1, x2, y2, w, h, drawing):
 def bucket(x, y, c, w, h, drawing):
     """Fills some area constrained to the canvas and/or lines using a flood-fill
     algorithm"""
-
-    if get_index(x, y, w, h, drawing) is " ":
+    i = to_index(x, y, w, h)
+    if drawing[i] is " ":
         t = (x, y - 1)
         r = (x + 1, y)
         b = (x, y + 1)
