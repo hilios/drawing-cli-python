@@ -37,5 +37,6 @@ def b(x1, y1, c, canvas):
 
 def render(cmd, canvas):
     new_canvas = reduce(lambda x, fn: fn(cmd, x), [q, c, l, r, b], canvas)
-    print utils.pretty_render(*new_canvas)
+    if new_canvas:
+        print utils.pretty_render(*new_canvas)
     return new_canvas

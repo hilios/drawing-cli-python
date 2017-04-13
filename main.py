@@ -17,7 +17,7 @@ if __name__ == '__main__':
     parser.add_argument('--debug', '-d', action='store_true')
     args = parser.parse_args()
 
-    logging.basicConfig(format='> %(message)s',
+    logging.basicConfig(format='%(levelname)s: %(message)s',
         level=logging.DEBUG if args.debug else logging.WARNING)
 
     try:

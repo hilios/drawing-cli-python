@@ -5,7 +5,7 @@ import logging
 import re
 
 
-CMD_PARSER = re.compile("[A-Z]{1}(\s(\d+|[a-z]{1})){0,4}$")
+CMD_PARSER = re.compile("[A-Z]{1}(\s(-?\d+|[a-z]{1})){0,4}$")
 
 
 def parse(cmd):
@@ -13,7 +13,7 @@ def parse(cmd):
     if CMD_PARSER.match(cmd):
         return tuple(cmd.split())
     else:
-        logging.warn("Invalid input")
+        logging.warn("Invalid command")
         return (None,)
 
 
@@ -41,7 +41,7 @@ def handle(*constraints, **kwargs):
                 return fn(*args, canvas=canvas)
 
             except ValueError:
-                logging.warn("Wrong input")
+                logging.warn("Invalid input")
                 return canvas
 
         return wrapper

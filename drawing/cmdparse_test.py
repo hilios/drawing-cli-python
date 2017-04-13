@@ -12,6 +12,9 @@ class ParseTest(unittest.TestCase):
         self.assertEqual(parse("B 1 2 c"), ("B", "1", "2", "c"))
         self.assertEqual(parse("Q"), ("Q",))
 
+    def test_allow_negative_values(self):
+        self.assertEqual(parse("L -1 -2"), ("L", "-1", "-2"))
+
     def test_incorrect_matches(self):
         "Wrong command inputs always returns None"
         self.assertEqual(parse("B 1 ccc"), (None,))
@@ -19,6 +22,7 @@ class ParseTest(unittest.TestCase):
         self.assertEqual(parse("q"), (None,))
         self.assertEqual(parse("Lorem ipsum dolor"), (None,))
         self.assertEqual(parse("R 1 2 3 4 5 6 7"), (None,))
+        self.assertEqual(parse(""), (None,))
 
 
 @handle('A', int, str, require_canvas=True)
