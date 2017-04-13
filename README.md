@@ -6,7 +6,7 @@ A command line application that let's you draw simple stuff like lines and recta
 
 **Architeture considerations:**
 
-This codes aims to be/use:
+This codes strives to use:
 
 1. Functional programming
 2. Pure functions
@@ -25,13 +25,13 @@ enter command:
 To run tests
 
 ```shell
-python test.py
+$ python test.py
 ```
 
 ##### Debug mode
 
 ```
-python main.py -d
+$ python main.py -d
 ```
 
 ### The problem
