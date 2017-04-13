@@ -107,26 +107,27 @@ class BucketTest(unittest.TestCase):
         """))
 
     def test_fill_canvas_from_other_point(self):
-        bf = lambda c: bucket(0, 0, 'o', W, H, c)
+        bf = lambda c: bucket(0, 0, '.', W, H, c)
         drawing = self.base_drawing(bf)
 
         self.assertEqual(pretty_render(W, H, drawing), textwrap.dedent("""
         +--------------------+
-        |oooooooooooooooxxxxx|
-        |xxxxxxooooooooox   x|
-        |     xoooooooooxxxxx|
-        |     xoooooooooooooo|
+        |...............xxxxx|
+        |xxxxxx.........x   x|
+        |     x.........xxxxx|
+        |     x..............|
         +--------------------+
         """))
 
-        def test_fill_just_a_square(self):
+        def test_fill_just_the_squares(self):
             bf = lambda c: bucket(0, 0, '*', W, H, c)
-            drawing = self.base_drawing(bf)
+            br = lambda c: bucket(17, 1, '@', W, H, c)
+            drawing = self.base_drawing(bf, br)
 
             self.assertEqual(pretty_render(W, H, drawing), textwrap.dedent("""
             +--------------------+
             |               xxxxx|
-            |xxxxxx         x   x|
+            |xxxxxx         x@@@x|
             |*****x         xxxxx|
             |*****x              |
             +--------------------+
