@@ -116,7 +116,7 @@ class BucketTest(unittest.TestCase):
         """))
 
         def test_fill_just_the_squares(self):
-            bf = lambda c: bucket(0, 0, '*', W, H, c)
+            bf = lambda c: bucket(0, 2, '*', W, H, c)
             br = lambda c: bucket(17, 1, '@', W, H, c)
             drawing = self.base_drawing(bf, br)
 

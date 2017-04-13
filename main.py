@@ -6,7 +6,7 @@ from drawing import cmdparse, render
 
 
 def run(canvas=None):
-    "Recursively applies a command to the drawing"
+    "Recursively applies a command to the canvas"
     cmd = cmdparse.parse(raw_input("enter command: "))
     run(render(cmd, canvas))
 
