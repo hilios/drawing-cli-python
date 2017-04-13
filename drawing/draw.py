@@ -5,11 +5,11 @@ All X and Y coordinates are zero-based positions relative to the canvas.
 import itertools
 
 
-def to_index(x, y, w, h):
+def index(x, y, w, h):
     """Converts a 2D coordinate to an linear index constrained to the canvas
     bounds
 
-    If a negative coordinate is provided"""
+    If a negative coordinate is provided start counting from the right"""
     invert  = lambda i, dim: dim + i if i < 0 else i
     lbound = lambda i, dim: 0 if i < 0 else i
     rbound = lambda i, dim: i if i < dim else dim - 1
@@ -21,7 +21,7 @@ def to_index(x, y, w, h):
 
 def fill(x, y, f, w, h, drawing):
     "Fills an coordinate with given filler"
-    i = to_index(x, y, w, h)
+    i = index(x, y, w, h)
     return "%s%s%s" % (drawing[:i], f, drawing[i+1:])
 
 
@@ -53,7 +53,7 @@ def rect(x1, y1, x2, y2, w, h, drawing):
 def bucket(x, y, c, w, h, drawing):
     """Fills some area constrained to the canvas and/or lines using a flood-fill
     algorithm"""
-    i = to_index(x, y, w, h)
+    i = index(x, y, w, h)
     if drawing[i] is " ":
         t = (x, y - 1)
         r = (x + 1, y)
