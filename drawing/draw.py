@@ -7,15 +7,12 @@ import itertools
 
 def index(x, y, w, h):
     """Converts a 2D coordinate to an linear index constrained to the canvas
-    bounds
-
-    If a negative coordinate is provided start counting from the right"""
-    invert  = lambda i, dim: dim + i if i < 0 else i
+    bounds"""
     lbound = lambda i, dim: 0 if i < 0 else i
     rbound = lambda i, dim: i if i < dim else dim - 1
 
-    _x = reduce(lambda x, fn: fn(x, w), [invert, lbound, rbound], x)
-    _y = reduce(lambda y, fn: fn(y, h), [invert, lbound, rbound], y)
+    _x = reduce(lambda x, fn: fn(x, w), [lbound, rbound], x)
+    _y = reduce(lambda y, fn: fn(y, h), [lbound, rbound], y)
     return _x + _y * w
 
 

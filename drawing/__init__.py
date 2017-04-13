@@ -30,9 +30,9 @@ def r(x1, y1, x2, y2, canvas):
 
 
 @cmdparse.handle('B', int, int, str)
-def b(x1, y1, c, canvas):
+def b(x, y, colour, canvas):
     w, h, drawing = canvas
-    return (w, h, draw.bucket(x1-1, y1-1, c, w, h, drawing))
+    return (w, h, draw.bucket(x-1, y-1, colour, w, h, drawing))
 
 
 def render(cmd, canvas):

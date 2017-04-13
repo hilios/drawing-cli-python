@@ -35,10 +35,6 @@ class FillerTest(unittest.TestCase):
 
     def test_negative_index(self):
         drawing = fill(-1, -1, '*', self.w, self.h, self.canvas)
-        self.assertEqual(drawing, "        *")
-
-    def test_negative_out_of_bounds(self):
-        drawing = fill(-11, -11, '*', self.w, self.h, self.canvas)
         self.assertEqual(drawing, "*        ")
 
 
