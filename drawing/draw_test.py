@@ -51,8 +51,31 @@ class LineTest(unittest.TestCase):
         +--------------------+
         """))
 
+    def test_horizontal_line_backwards(self):
+        drawing = line(5, 1, 0, 1, W, H, BASE_CANVAS)
+        self.assertEqual(pretty_render(W, H, drawing), textwrap.dedent("""
+        +--------------------+
+        |                    |
+        |xxxxxx              |
+        |                    |
+        |                    |
+        +--------------------+
+        """))
+
     def test_vertical_line(self):
         drawing = line(5, 2, 5, 3, W, H, BASE_CANVAS)
+        self.assertEqual(pretty_render(W, H, drawing), textwrap.dedent("""
+        +--------------------+
+        |                    |
+        |                    |
+        |     x              |
+        |     x              |
+        +--------------------+
+        """))
+
+    def test_vertical_line_backwards(self):
+
+        drawing = line(5, 3, 5, 2, W, H, BASE_CANVAS)
         self.assertEqual(pretty_render(W, H, drawing), textwrap.dedent("""
         +--------------------+
         |                    |
@@ -71,6 +94,17 @@ class RectTest(unittest.TestCase):
 
     def test_draw_rect(self):
         drawing = rect(15, 0, 19, 2, W, H, BASE_CANVAS)
+        self.assertEqual(pretty_render(W, H, drawing), textwrap.dedent("""
+        +--------------------+
+        |               xxxxx|
+        |               x   x|
+        |               xxxxx|
+        |                    |
+        +--------------------+
+        """))
+
+    def test_draw_rect_backwards(self):
+        drawing = rect(19, 2, 15, 0, W, H, BASE_CANVAS)
         self.assertEqual(pretty_render(W, H, drawing), textwrap.dedent("""
         +--------------------+
         |               xxxxx|

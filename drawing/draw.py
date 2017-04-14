@@ -28,13 +28,14 @@ def canvas(width, height, drawing):
 
 def line(x1, y1, x2, y2, w, h, drawing):
     "Draws a horizontal or vertical lines"
-    dx, dy = range(x1, x2 + 1), range(y1, y2 + 1)
+    xs = range(x1, x2 + 1) if (x1 < x2) else range(x2, x1 + 1)
+    ys = range(y1, y2 + 1) if (y1 < y2) else range(y2, y1 + 1)
 
-    if len(dx) > 1 and len(dy) > 1:
+    if len(xs) > 1 and len(ys) > 1:
         raise ValueError
 
     return reduce(lambda d, xy: fill(*xy, f='x', w=w, h=h, drawing=d),
-        itertools.product(dx, dy), drawing)
+        itertools.product(xs, ys), drawing)
 
 
 def rect(x1, y1, x2, y2, w, h, drawing):

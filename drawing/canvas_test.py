@@ -65,12 +65,44 @@ class CavasTest(unittest.TestCase):
         +--------------------+
         """)
 
+    def test_draw_line_backwards(self):
+        canvas = blank_canvas(20, 4).line(5, 1, 0, 1)
+        self.assertRender(canvas, """
+        +--------------------+
+        |                    |
+        |xxxxxx              |
+        |                    |
+        |                    |
+        +--------------------+
+        """)
+
+        canvas = blank_canvas(20, 4).line(5, 3, 5, 2)
+        self.assertRender(canvas, """
+        +--------------------+
+        |                    |
+        |                    |
+        |     x              |
+        |     x              |
+        +--------------------+
+        """)
+
     def test_diagonal_line(self):
         with self.assertRaises(ValueError):
             blank_canvas(20, 4).line(1, 2, 6, 4)
 
     def test_draw_rect(self):
         canvas = blank_canvas(20, 4).rect(15, 0, 19, 2)
+        self.assertRender(canvas, """
+        +--------------------+
+        |               xxxxx|
+        |               x   x|
+        |               xxxxx|
+        |                    |
+        +--------------------+
+        """)
+
+    def test_draw_rect_backwards(self):
+        canvas = blank_canvas(20, 4).rect(19, 2, 15, 0)
         self.assertRender(canvas, """
         +--------------------+
         |               xxxxx|
