@@ -1,3 +1,5 @@
+"""A canvas object where one can draw in a chainable OO style with `immutability` guarantee.
+"""
 import textwrap
 import itertools
 
