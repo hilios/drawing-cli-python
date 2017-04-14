@@ -1,4 +1,4 @@
-"""Draw stuff in the canvas.
+"""Draw stuff in the canvas in a purely functional style, assuring imutability.
 
 All X and Y coordinates are zero-based positions relative to the canvas.
 """
